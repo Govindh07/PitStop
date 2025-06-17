@@ -39,6 +39,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  String _searchQuery = '';
 
   void _onItemTapped(int index) {
     if (index == _selectedIndex) return;
@@ -84,7 +85,7 @@ class _HomePageState extends State<HomePage> {
     ),
   ];
 
-  final List<Car> cars = [
+  final List<Car> allCars = [
     Car(
       name: 'Lamborghini Huracan',
       imageUrl: 'https://media-cdn.tripadvisor.com/media/attractions-splice-spp-674x446/0a/c7/b9/d6.jpg',
@@ -134,13 +135,17 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Car> filteredCars = allCars
+        .where((car) => car.name.toLowerCase().contains(_searchQuery.toLowerCase()))
+        .toList();
+
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.white),
         centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.white),
         title: Image.asset('Asset/Images/LoGo.png', height: 350),
       ),
       body: SingleChildScrollView(
@@ -170,10 +175,9 @@ class _HomePageState extends State<HomePage> {
                           child: Container(
                             padding: const EdgeInsets.all(10),
                             color: Colors.black54,
-                            child: Text(
-                              car.name,
-                              style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
+                            child: Text(car.name,
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
                           ),
                         )
                       ],
@@ -197,20 +201,18 @@ class _HomePageState extends State<HomePage> {
                   border: InputBorder.none,
                   contentPadding: const EdgeInsets.symmetric(vertical: 15),
                 ),
+                onChanged: (value) {
+                  setState(() {
+                    _searchQuery = value;
+                  });
+                },
               ),
             ),
             const SizedBox(height: 20),
-            TextButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) => CarsListPage()));
-              },
-              child: const Text('View All', style: TextStyle(color: Colors.yellow)),
-            ),
-            const SizedBox(height: 24),
             const Text('Popular Cars', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
             const SizedBox(height: 12),
             Column(
-              children: cars.map((car) {
+              children: filteredCars.map((car) {
                 return GestureDetector(
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (_) => CarDetailPage(car: car)));
