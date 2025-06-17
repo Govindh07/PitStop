@@ -1,2 +1,2 @@
 # PitStop
-
+**PitStop** is a sleek and modern **Car rental** mobile application built using Flutter. It offers users a seamless experience to browse, filter, and rent premium cars directly from their devices. With a visually engaging dark-themed UI, integrated carousel sliders, favorite management using Provider, and detailed car listings, PitStop delivers both style and functionality. Key features include:
