@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:main_projects/PitStop/Widget/HomePage.dart';
+import 'package:main_projects/PitStop/Widget/ResetPassword.dart';
 import 'package:main_projects/PitStop/Widget/SignupPage.dart';
 
 void main() {
@@ -142,7 +143,12 @@ class _LoginPageState extends State<LoginPage> {
                           ],
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => ResetPasswordPage()),
+                            );
+                          },
                           child: const Text("Forgot Password?"),
                         ),
                       ],

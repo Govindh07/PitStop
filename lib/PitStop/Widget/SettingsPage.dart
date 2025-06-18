@@ -3,6 +3,7 @@ import 'package:main_projects/PitStop/Widget/HomePage.dart';
 import 'package:main_projects/PitStop/Widget/CarsPage.dart';
 import 'package:main_projects/PitStop/Widget/FavouritePage.dart';
 import 'package:main_projects/PitStop/Widget/ProfilePage.dart';
+import 'package:main_projects/PitStop/Widget/SignupPage.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -73,7 +74,7 @@ class _SettingsPageState extends State<SettingsPage> {
               // Handle action
             },
           ),
-          const Divider(color: Colors.white24),
+          Divider(color: Colors.white24),
           ListTile(
             leading: const Icon(Icons.help_outline, color: Colors.yellow),
             title: const Text('Help & Support', style: TextStyle(color: Colors.white)),
@@ -81,12 +82,15 @@ class _SettingsPageState extends State<SettingsPage> {
               // Handle action
             },
           ),
-          const Divider(color: Colors.white24),
+          Divider(color: Colors.white24),
           ListTile(
             leading: const Icon(Icons.logout, color: Colors.yellow),
             title: const Text('Logout', style: TextStyle(color: Colors.white)),
             onTap: () {
-              // Handle logout
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RegisterPage()),
+              );
             },
           ),
         ],
