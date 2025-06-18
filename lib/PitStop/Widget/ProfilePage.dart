@@ -125,7 +125,7 @@ class _ProfilePageState extends State<ProfilePage> {
               'govindh123@gmail.com',
               style: TextStyle(color: Colors.white60),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: 24),
             buildProfileOption(Icons.person_outline, 'Profile Edit', _navigateToEditProfile),
             buildProfileOption(Icons.account_balance_wallet, 'History', _navigateToHistory),
             buildProfileOption(Icons.help_outline, 'About', _navigateToAbout),
