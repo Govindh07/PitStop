@@ -121,7 +121,7 @@ class CarDetailPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => PaymentApp()),
+                    MaterialPageRoute(builder: (_) => PaymentPage()),
                   );
                 },
                 icon: const Icon(Icons.payment),
