@@ -42,9 +42,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     CircleAvatar(
-                      backgroundColor: Colors.blueAccent,
+                      backgroundColor: Colors.yellowAccent,
                       radius: 30,
-                      child: Icon(Icons.vpn_key, color: Colors.white, size: 30),
+                      child: Icon(Icons.vpn_key, color: Colors.black, size: 30),
                     ),
                     const SizedBox(height: 20),
                     Text(
@@ -62,7 +62,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                         labelText: "New Password",
-                        labelStyle: TextStyle(color: Colors.grey),
+                        labelStyle: TextStyle(color: Colors.white),
                         border: OutlineInputBorder(),
                       ),
                       validator: (value) {
@@ -79,7 +79,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                         labelText: "Confirm New Password",
-                        labelStyle: TextStyle(color: Colors.grey),
+                        labelStyle: TextStyle(color: Colors.white),
                         border: OutlineInputBorder(),
                       ),
                       validator: (value) {
@@ -95,7 +95,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       children: [
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blueAccent,
+                            backgroundColor: Colors.yellowAccent,
                           ),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
@@ -105,7 +105,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                               );
                             }
                           },
-                          child: Text("Continue"),
+                          child: Text("Continue",style: TextStyle(color: Colors.black),),
                         ),
                         TextButton(
                           onPressed: () {

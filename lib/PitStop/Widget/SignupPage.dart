@@ -7,6 +7,7 @@ void main() {
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
+
   @override
   State<RegisterPage> createState() => _RegisterPageState();
 }
@@ -17,6 +18,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _rememberMe = false;
+  bool _obscurePassword = true;
 
   String? _validateName(String? value) {
     if (value == null || value.trim().isEmpty) {
@@ -45,10 +47,19 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void _handleRegister() {
     if (_formKey.currentState!.validate()) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => LoginPage()),
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Registered Successfully')),
       );
+      _nameController.clear();
+      _emailController.clear();
+      _passwordController.clear();
+
+      Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => LoginPage()),
+        );
+      });
     }
   }
 
@@ -92,7 +103,10 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      const Text("Create your new account"),
+                      const Text(
+                        "Create your new account",
+                        style: TextStyle(color: Colors.black),
+                      ),
                       const SizedBox(height: 25),
                       TextFormField(
                         controller: _nameController,
@@ -114,8 +128,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Please enter your email';
-                          } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
-                              .hasMatch(value)) {
+                          } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
                             return 'Enter a valid email';
                           }
                           return null;
@@ -124,11 +137,21 @@ class _RegisterPageState extends State<RegisterPage> {
                       const SizedBox(height: 15),
                       TextFormField(
                         controller: _passwordController,
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.lock),
+                        obscureText: _obscurePassword,
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.lock),
                           hintText: 'Password',
-                          border: OutlineInputBorder(),
+                          border: const OutlineInputBorder(),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _obscurePassword = !_obscurePassword;
+                              });
+                            },
+                          ),
                         ),
                         validator: _validatePassword,
                       ),
@@ -156,21 +179,24 @@ class _RegisterPageState extends State<RegisterPage> {
                         width: double.infinity,
                         height: 50,
                         child: ElevatedButton(
-                          onPressed: _handleRegister,
+                          onPressed: _rememberMe ? _handleRegister : null,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green,
+                            disabledBackgroundColor: Colors.grey,
                           ),
-                          child: const Text("Sign Up"),
+                          child: const Text(
+                            "Sign Up",
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 20),
                       Center(
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginPage()),
+                              MaterialPageRoute(builder: (context) => LoginPage()),
                             );
                           },
                           child: const Text.rich(

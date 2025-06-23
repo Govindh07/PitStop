@@ -9,6 +9,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
@@ -29,6 +31,7 @@ class _LoginPageState extends State<LoginPage> {
   final _nameController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _rememberMe = false;
+  bool _obscurePassword = true;
 
   String? _validateName(String? value) {
     if (value == null || value.trim().isEmpty) {
@@ -57,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void _handleLogin() {
     if (_formKey.currentState!.validate()) {
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomePage()),
       );
@@ -91,110 +94,122 @@ class _LoginPageState extends State<LoginPage> {
               ),
               child: Form(
                 key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Welcome Back",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.green,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Welcome Back",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    const Text("Login to your account"),
-                    const SizedBox(height: 30),
-                    TextFormField(
-                      controller: _nameController,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.person),
-                        hintText: 'Username',
-                        border: OutlineInputBorder(),
+                      const SizedBox(height: 10),
+                      const Text("Login to your account"),
+                      const SizedBox(height: 30),
+                      TextFormField(
+                        controller: _nameController,
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.person),
+                          hintText: 'Username',
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: _validateName,
                       ),
-                      validator: _validateName,
-                    ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      controller: _passwordController,
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.lock),
-                        hintText: 'Password',
-                        border: OutlineInputBorder(),
-                      ),
-                      validator: _validatePassword,
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Checkbox(
-                              value: _rememberMe,
-                              onChanged: (value) {
-                                setState(() {
-                                  _rememberMe = value!;
-                                });
-                              },
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        controller: _passwordController,
+                        obscureText: _obscurePassword,
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.lock),
+                          hintText: 'Password',
+                          border: const OutlineInputBorder(),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscurePassword ? Icons.visibility_off : Icons.visibility,
                             ),
-                            const Text("Remember Me"),
-                          ],
+                            onPressed: () {
+                              setState(() {
+                                _obscurePassword = !_obscurePassword;
+                              });
+                            },
+                          ),
                         ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => ResetPasswordPage()),
-                            );
-                          },
-                          child: const Text("Forgot Password?"),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: _handleLogin,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green,
-                        ),
-                        child: const Text(
-                          "Login",
-                          style: TextStyle(color: Colors.white),
-                        ),
+                        validator: _validatePassword,
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                    Center(
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RegisterPage()),
-                          );
-                        },
-                        child: const Text.rich(
-                          TextSpan(
-                            text: "Don't have an account? ",
+                      const SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
                             children: [
-                              TextSpan(
-                                text: "Sign up",
-                                style: TextStyle(
-                                  color: Colors.green,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              Checkbox(
+                                value: _rememberMe,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _rememberMe = value!;
+                                  });
+                                },
                               ),
+                              const Text("Remember Me"),
                             ],
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => ResetPasswordPage()),
+                              );
+                            },
+                            child: const Text("Forgot Password?"),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: _rememberMe ? _handleLogin : null, // Enabled only if checkbox is ticked
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green,
+                            disabledBackgroundColor: Colors.grey, // Button is grey when disabled
+                          ),
+                          child: const Text(
+                            "Login",
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                       ),
-                    )
-                  ],
+                      const SizedBox(height: 20),
+                      Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => RegisterPage()),
+                            );
+                          },
+                          child: const Text.rich(
+                            TextSpan(
+                              text: "Don't have an account? ",
+                              children: [
+                                TextSpan(
+                                  text: "Sign up",
+                                  style: TextStyle(
+                                    color: Colors.green,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
