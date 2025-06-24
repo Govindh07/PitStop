@@ -4,7 +4,8 @@ import 'package:main_projects/PitStop/Widget/HomePage.dart';
 import 'package:main_projects/PitStop/Widget/CarsPage.dart';
 import 'package:main_projects/PitStop/Widget/SettingsPage.dart';
 import 'package:main_projects/PitStop/Widget/FavouritePage.dart';
-
+import 'package:main_projects/PitStop/Widget/HistoryPage.dart';
+import 'package:main_projects/PitStop/Widget/AboutPage.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -52,29 +53,11 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void _navigateToHistory() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => Scaffold(
-          appBar: AppBar(title: const Text("History")),
-          body: const Center(child: Text("History Page Placeholder", style: TextStyle(color: Colors.white))),
-          backgroundColor: Colors.black,
-        ),
-      ),
-    );
+    Navigator.push(context, MaterialPageRoute(builder: (_) => HistoryPage()));
   }
 
   void _navigateToAbout() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => Scaffold(
-          appBar: AppBar(title: const Text("About")),
-          body: const Center(child: Text("About Page Placeholder", style: TextStyle(color: Colors.white))),
-          backgroundColor: Colors.black,
-        ),
-      ),
-    );
+    Navigator.push(context, MaterialPageRoute(builder: (_) => AboutPage()));
   }
 
   @override
@@ -109,7 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     padding: const EdgeInsets.all(4),
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.red,
+                      color: Colors.yellowAccent,
                     ),
                     child: const Icon(Icons.edit, size: 16, color: Colors.white),
                   ),
@@ -125,7 +108,7 @@ class _ProfilePageState extends State<ProfilePage> {
               'govindh123@gmail.com',
               style: TextStyle(color: Colors.white60),
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             buildProfileOption(Icons.person_outline, 'Profile Edit', _navigateToEditProfile),
             buildProfileOption(Icons.account_balance_wallet, 'History', _navigateToHistory),
             buildProfileOption(Icons.help_outline, 'About', _navigateToAbout),
@@ -158,7 +141,7 @@ class _ProfilePageState extends State<ProfilePage> {
         borderRadius: BorderRadius.circular(12),
       ),
       child: ListTile(
-        leading: Icon(icon, color: Colors.red),
+        leading: Icon(icon, color: Colors.yellowAccent),
         title: Text(title, style: const TextStyle(color: Colors.white)),
         trailing: const Icon(Icons.arrow_forward_ios, color: Colors.white70, size: 16),
         onTap: onTap,

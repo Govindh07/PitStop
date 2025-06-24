@@ -107,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      const Text("Login to your account"),
+                      const Text("Login to your account",style: TextStyle(color: Colors.black),),
                       const SizedBox(height: 30),
                       TextFormField(
                         controller: _nameController,
@@ -123,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                         controller: _passwordController,
                         obscureText: _obscurePassword,
                         decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.lock),
+                          prefixIcon: const Icon(Icons.lock,color: Colors.black,),
                           hintText: 'Password',
                           border: const OutlineInputBorder(),
                           suffixIcon: IconButton(
@@ -153,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                                   });
                                 },
                               ),
-                              const Text("Remember Me"),
+                              const Text("Remember Me",style: TextStyle(color: Colors.black),),
                             ],
                           ),
                           TextButton(
@@ -163,7 +163,7 @@ class _LoginPageState extends State<LoginPage> {
                                 MaterialPageRoute(builder: (context) => ResetPasswordPage()),
                               );
                             },
-                            child: const Text("Forgot Password?"),
+                            child: const Text("Forgot Password?",style: TextStyle(color: Colors.purple),),
                           ),
                         ],
                       ),
@@ -193,7 +193,7 @@ class _LoginPageState extends State<LoginPage> {
                             );
                           },
                           child: const Text.rich(
-                            TextSpan(
+                            TextSpan(style: TextStyle(color: Colors.black),
                               text: "Don't have an account? ",
                               children: [
                                 TextSpan(

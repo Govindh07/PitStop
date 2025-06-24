@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:main_projects/PitStop/Widget/HomePage.dart';
 import 'package:main_projects/PitStop/Widget/CarsPage.dart';
 import 'package:main_projects/PitStop/Widget/FavouritePage.dart';
+import 'package:main_projects/PitStop/Widget/LoginPage.dart';
 import 'package:main_projects/PitStop/Widget/ProfilePage.dart';
 import 'package:main_projects/PitStop/Widget/SignupPage.dart';
 
@@ -20,7 +21,7 @@ class _SettingsPageState extends State<SettingsPage> {
     });
 
     if (index == 0) {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomePage()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomePage()));
     } else if (index == 1) {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => CarsListPage()));
     } else if (index == 3) {
@@ -89,7 +90,7 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => RegisterPage()),
+                MaterialPageRoute(builder: (context) => LoginPage()),
               );
             },
           ),

@@ -46,6 +46,7 @@ dependencies:
   onboarding_screen: ^0.0.3
   introduction_screen: ^3.1.17
   flutter_vector_icons: ^2.0.0
+  http:
 
 
   # The following adds the Cupertino Icons font to your application.
