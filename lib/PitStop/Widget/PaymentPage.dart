@@ -1,11 +1,26 @@
-import 'package:flutter/material.dart';
 
-void main(){
-  runApp(MaterialApp(debugShowCheckedModeBanner: false,home: PaymentPage(),));
-}
+import 'package:flutter/material.dart';
+import 'package:main_projects/PitStop/Model/BookingModel.dart';
+import 'package:main_projects/PitStop/Provider/HistoryProvider.dart';
+import 'package:provider/provider.dart';
+import '../Model/carmodel.dart';
+import 'HistoryPage.dart';
 
 class PaymentPage extends StatefulWidget {
-  const PaymentPage({super.key});
+  final Car car;
+  final String pickupLocation;
+  final String dropLocation;
+  final DateTime pickupDate;
+  final String timeSlot;
+
+  const PaymentPage({
+    super.key,
+    required this.car,
+    required this.pickupLocation,
+    required this.dropLocation,
+    required this.pickupDate,
+    required this.timeSlot,
+  });
 
   @override
   State<PaymentPage> createState() => _PaymentPageState();
@@ -33,21 +48,29 @@ class _PaymentPageState extends State<PaymentPage> with SingleTickerProviderStat
     _tabController = TabController(length: 4, vsync: this);
   }
 
-  void _showSuccessDialog(String method) {
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        backgroundColor: Colors.black,
-        title: const Text("Payment Successful", style: TextStyle(color: Colors.greenAccent)),
-        content: Text("Your payment via $method has been completed.",
-            style: const TextStyle(color: Colors.white70)),
-        actions: [
-          TextButton(
-            child: const Text("OK", style: TextStyle(color: Colors.yellow)),
-            onPressed: () => Navigator.pop(context),
-          ),
-        ],
+  void _processPayment(String method) {
+    final historyProvider = Provider.of<HistoryProvider>(context, listen: false);
+
+    historyProvider.addBooking(
+      Booking(
+        id: DateTime.now().toString(),
+        carName: widget.car.name,
+        bookingDate: DateTime.now().toString().substring(0, 16),
+        pickupLocation: widget.pickupLocation,
+        dropLocation: widget.dropLocation,
+        pickupDate: widget.pickupDate,
+        timeSlot: widget.timeSlot,
+        price: double.tryParse(widget.car.pricePerDay.replaceAll(RegExp(r'[^\d.]'), '')) ?? 0.0,
       ),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Payment Successful via $method!')),
+    );
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => HistoryPage()),
     );
   }
 
@@ -56,7 +79,7 @@ class _PaymentPageState extends State<PaymentPage> with SingleTickerProviderStat
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text('Payment Gateway',style: TextStyle(color: Colors.white),),
+        title: const Text('Payment Gateway', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.black,
         bottom: TabBar(
           controller: _tabController,
@@ -129,7 +152,7 @@ class _PaymentPageState extends State<PaymentPage> with SingleTickerProviderStat
             _buildPayButton(() {
               if (_cardFormKey.currentState!.validate()) {
                 _cardFormKey.currentState!.save();
-                _showSuccessDialog("Card");
+                _processPayment("Card");
               }
             }),
           ],
@@ -155,7 +178,7 @@ class _PaymentPageState extends State<PaymentPage> with SingleTickerProviderStat
             _buildPayButton(() {
               if (_upiFormKey.currentState!.validate()) {
                 _upiFormKey.currentState!.save();
-                _showSuccessDialog("UPI");
+                _processPayment("UPI");
               }
             }),
           ],
@@ -188,7 +211,7 @@ class _PaymentPageState extends State<PaymentPage> with SingleTickerProviderStat
             ),
             const SizedBox(height: 24),
             _buildPayButton(() {
-              _showSuccessDialog("Wallet ($selectedWallet)");
+              _processPayment("Wallet ($selectedWallet)");
             }),
           ],
         ),
@@ -220,7 +243,7 @@ class _PaymentPageState extends State<PaymentPage> with SingleTickerProviderStat
             ),
             const SizedBox(height: 24),
             _buildPayButton(() {
-              _showSuccessDialog("Netbanking ($selectedBank)");
+              _processPayment("Netbanking ($selectedBank)");
             }),
           ],
         ),
@@ -279,3 +302,4 @@ class _PaymentPageState extends State<PaymentPage> with SingleTickerProviderStat
     );
   }
 }
+

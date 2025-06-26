@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:main_projects/PitStop/Model/carmodel.dart';
 import 'package:main_projects/PitStop/Provider/FavoritesProvider.dart';
-import 'package:main_projects/PitStop/Widget/PaymentPage.dart';
+import 'package:main_projects/PitStop/Widget/Location.dart';
 
 class CarDetailPage extends StatelessWidget {
   final Car car;
@@ -121,7 +121,7 @@ class CarDetailPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => PaymentPage()),
+                    MaterialPageRoute(builder: (_) => LocationPage(car: car)),
                   );
                 },
                 icon: const Icon(Icons.payment),

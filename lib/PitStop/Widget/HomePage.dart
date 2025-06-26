@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:main_projects/PitStop/Model/carmodel.dart';
+import 'package:main_projects/PitStop/Provider/HistoryProvider.dart';
 import 'package:main_projects/PitStop/Widget/CarsDetailsPage.dart';
 import 'package:main_projects/PitStop/Widget/CarsPage.dart';
 import 'package:main_projects/PitStop/Widget/FavouritePage.dart';
@@ -11,12 +12,16 @@ import 'package:main_projects/PitStop/Provider/FavoritesProvider.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => FavoritesProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => FavoritesProvider()),
+        ChangeNotifierProvider(create: (_) => HistoryProvider()), // Add this
+      ],
       child: const MyApp(),
     ),
   );
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

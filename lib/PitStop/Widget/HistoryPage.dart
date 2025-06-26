@@ -1,51 +1,44 @@
-import 'package:flutter/material.dart';
 
-void main(){
-  runApp(MaterialApp(debugShowCheckedModeBanner: false,home: HistoryPage(),themeMode: ThemeMode.dark,));
-}
+import 'package:flutter/material.dart';
+import 'package:main_projects/PitStop/Provider/HistoryProvider.dart';
+import 'package:provider/provider.dart';
 
 class HistoryPage extends StatelessWidget {
-  const HistoryPage({super.key});
-
   @override
   Widget build(BuildContext context) {
+    final historyProvider = Provider.of<HistoryProvider>(context);
+    final bookings = historyProvider.bookings;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('History',style: TextStyle(color: Colors.black),),
-        backgroundColor: Colors.yellowAccent,
+        title: const Text('Booking History'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView(
-          children: [
-            const Text(
-              'Your Activity History',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Colors.green,
+      body: bookings.isEmpty
+          ? const Center(child: Text('No bookings found'))
+          : ListView.builder(
+        itemCount: bookings.length,
+        itemBuilder: (context, index) {
+          final booking = bookings[index];
+          return Card(
+            margin: const EdgeInsets.all(8),
+            child: ListTile(
+              title: Text(booking.carName),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Booking Date: ${booking.bookingDate}'),
+                  Text('Pickup: ${booking.pickupLocation}'),
+                  Text('Drop: ${booking.dropLocation}'),
+                  Text('Pickup Date: ${booking.pickupDate.toLocal()}'.split(' ')[0]),
+                  Text('Time Slot: ${booking.timeSlot}'),
+                  Text('Price: ₹${booking.price.toStringAsFixed(2)}'),
+                ],
               ),
             ),
-            const SizedBox(height: 20),
-            _buildHistoryCard('Car Rental - Lamborghini', '22 June 2025'),
-            _buildHistoryCard('Payment - ₹2500', '21 June 2025'),
-            _buildHistoryCard('Car Returned - Ferrari', '20 June 2025'),
-            _buildHistoryCard('Car Rental - McLaren', '18 June 2025'),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHistoryCard(String title, String date) {
-    return Card(
-      elevation: 4,
-      margin: const EdgeInsets.only(bottom: 15),
-      child: ListTile(
-        leading: const Icon(Icons.history, color: Colors.green),
-        title: Text(title),
-        subtitle: Text(date),
+          );
+        },
       ),
     );
   }
 }
+
