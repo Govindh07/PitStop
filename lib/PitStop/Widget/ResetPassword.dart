@@ -12,8 +12,10 @@ class ResetPasswordPage extends StatefulWidget {
 
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -55,19 +57,36 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 30),
+                    SizedBox(height: 30,),
+                    TextFormField(
+                      controller: _emailController,
+                      obscureText: true,
+                      style: TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        labelText: "Email",
+                        labelStyle: TextStyle(color: Colors.white),
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value != _passwordController.text) {
+                          return 'email does not match';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
                     TextFormField(
                       controller: _passwordController,
                       obscureText: true,
                       style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
-                        labelText: "New Password",
+                        labelText: "Current Password",
                         labelStyle: TextStyle(color: Colors.white),
                         border: OutlineInputBorder(),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your new password';
+                          return 'Please enter your current password';
                         }
                         return null;
                       },
@@ -78,13 +97,13 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       obscureText: true,
                       style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
-                        labelText: "Confirm New Password",
+                        labelText: "Enter New Password",
                         labelStyle: TextStyle(color: Colors.white),
                         border: OutlineInputBorder(),
                       ),
                       validator: (value) {
                         if (value != _passwordController.text) {
-                          return 'Passwords do not match';
+                          return 'New Password';
                         }
                         return null;
                       },
