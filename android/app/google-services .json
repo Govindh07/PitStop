@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "276370304417",
-    "project_id": "pitstop-rentals",
-    "storage_bucket": "pitstop-rentals.firebasestorage.app"
+    "project_number": "305596192304",
+    "project_id": "pit-stop-55f95",
+    "storage_bucket": "pit-stop-55f95.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:276370304417:android:4824c45a68ec49c9842fe0",
+        "mobilesdk_app_id": "1:305596192304:android:ed09efbdeae4e581d43ff5",
         "android_client_info": {
           "package_name": "com.example.main_projects"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyApaxqQ39kOIQ0QeMPcZ7nZS3Y8DorX2Ik"
+          "current_key": "AIzaSyB8mPN6Dtuv7D8zDMTGggL9ij9P1yqQaK4"
         }
       ],
       "services": {
