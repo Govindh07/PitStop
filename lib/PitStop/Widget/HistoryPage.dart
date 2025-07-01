@@ -1,7 +1,6 @@
-
 import 'package:flutter/material.dart';
-import 'package:main_projects/PitStop/Provider/HistoryProvider.dart';
 import 'package:provider/provider.dart';
+import '../Provider/HistoryProvider.dart';
 
 class HistoryPage extends StatelessWidget {
   @override
@@ -11,27 +10,31 @@ class HistoryPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Booking History'),
+        title: const Text('Booking History', style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.black,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
+      backgroundColor: Colors.black,
       body: bookings.isEmpty
-          ? const Center(child: Text('No bookings found'))
+          ? const Center(child: Text('No bookings found', style: TextStyle(color: Colors.white)))
           : ListView.builder(
         itemCount: bookings.length,
         itemBuilder: (context, index) {
           final booking = bookings[index];
           return Card(
+            color: Colors.grey[900],
             margin: const EdgeInsets.all(8),
             child: ListTile(
-              title: Text(booking.carName),
+              title: Text(booking.carName, style: const TextStyle(color: Colors.yellow)),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Booking Date: ${booking.bookingDate}'),
-                  Text('Pickup: ${booking.pickupLocation}'),
-                  Text('Drop: ${booking.dropLocation}'),
-                  Text('Pickup Date: ${booking.pickupDate.toLocal()}'.split(' ')[0]),
-                  Text('Time Slot: ${booking.timeSlot}'),
-                  Text('Price: ₹${booking.price.toStringAsFixed(2)}'),
+                  Text('Booking Date: ${booking.bookingDate}', style: const TextStyle(color: Colors.white70)),
+                  Text('Pickup: ${booking.pickupLocation}', style: const TextStyle(color: Colors.white70)),
+                  Text('Drop: ${booking.dropLocation}', style: const TextStyle(color: Colors.white70)),
+                  Text('Pickup Date: ${booking.pickupDate.toLocal()}'.split(' ')[0], style: const TextStyle(color: Colors.white70)),
+                  Text('Time Slot: ${booking.timeSlot}', style: const TextStyle(color: Colors.white70)),
+                  Text('Price: ₹${booking.price.toStringAsFixed(2)}', style: const TextStyle(color: Colors.yellow)),
                 ],
               ),
             ),
@@ -41,4 +44,3 @@ class HistoryPage extends StatelessWidget {
     );
   }
 }
-

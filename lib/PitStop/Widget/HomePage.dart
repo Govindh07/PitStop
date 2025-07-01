@@ -1,7 +1,7 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:main_projects/PitStop/Model/carmodel.dart';
+import 'package:main_projects/PitStop/Provider/FavoritesProvider.dart';
 import 'package:main_projects/PitStop/Provider/HistoryProvider.dart';
 import 'package:main_projects/PitStop/Widget/CarsDetailsPage.dart';
 import 'package:main_projects/PitStop/Widget/CarsPage.dart';
@@ -9,29 +9,24 @@ import 'package:main_projects/PitStop/Widget/FavouritePage.dart';
 import 'package:main_projects/PitStop/Widget/ProfilePage.dart';
 import 'package:main_projects/PitStop/Widget/SettingsPage.dart';
 import 'package:provider/provider.dart';
-import 'package:main_projects/PitStop/Provider/FavoritesProvider.dart';
 
 void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => FavoritesProvider()),
-        ChangeNotifierProvider(create: (_) => HistoryProvider()), // Add this
-      ],
-      child: const MyApp(),
-    ),
-  );
+  runApp(PitStopApp());
 }
 
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class PitStopApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const HomePage(),
-      theme: ThemeData.dark(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => FavoritesProvider()),
+        ChangeNotifierProvider(create: (_) => HistoryProvider()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData.dark(),
+        home: HomePage(),
+      ),
     );
   }
 }

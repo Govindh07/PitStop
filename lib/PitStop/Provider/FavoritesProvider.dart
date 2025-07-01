@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:main_projects/PitStop/Model/carmodel.dart';
-
+import '../Model/carmodel.dart';
 
 class FavoritesProvider with ChangeNotifier {
   final List<Car> _favorites = [];
@@ -21,4 +20,3 @@ class FavoritesProvider with ChangeNotifier {
     return _favorites.any((c) => c.name == car.name);
   }
 }
-

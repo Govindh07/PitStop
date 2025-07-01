@@ -1,23 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:main_projects/PitStop/Widget/HomePage.dart';
-import 'package:main_projects/PitStop/Widget/ResetPassword.dart';
-import 'package:main_projects/PitStop/Widget/SignupPage.dart';
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: const LoginPage(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
-}
+import 'SignupPage.dart';
+import 'HomePage.dart';
+import 'ResetPassword.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -28,43 +12,40 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _rememberMe = false;
   bool _obscurePassword = true;
+  bool _isLoading = false;
 
-  String? _validateName(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      return 'Please enter your name';
-    }
-    final nameRegExp = RegExp(r'^[a-zA-Z\s]+$');
-    if (!nameRegExp.hasMatch(value.trim())) {
-      return 'Only letters are allowed';
-    }
-    return null;
-  }
-
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter a password';
-    }
-    if (value.length < 6) {
-      return 'Password must be at least 6 characters';
-    }
-    final specialCharRegExp = RegExp(r'[!@#\$%\^&\*\(\)_\+\-=\[\]{};:"\\|,.<>\/?]');
-    if (!specialCharRegExp.hasMatch(value)) {
-      return 'Password must contain at least one special character';
-    }
-    return null;
-  }
-
-  void _handleLogin() {
+  Future<void> _handleLogin() async {
     if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true;
+      });
+
+      await Future.delayed(const Duration(seconds: 2));
+
+      setState(() {
+        _isLoading = false;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Login Successful')),
+      );
+
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomePage()),
+        MaterialPageRoute(builder: (context) => const HomePage()),
       );
     }
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -107,23 +88,30 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      const Text("Login to your account",style: TextStyle(color: Colors.black),),
+                      const Text("Login to your account", style: TextStyle(color: Colors.black)),
                       const SizedBox(height: 30),
                       TextFormField(
-                        controller: _nameController,
+                        controller: _emailController,
                         decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.person),
-                          hintText: 'Username',
+                          prefixIcon: Icon(Icons.email),
+                          hintText: 'Email',
                           border: OutlineInputBorder(),
                         ),
-                        validator: _validateName,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your email';
+                          } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                            return 'Enter a valid email';
+                          }
+                          return null;
+                        },
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
                         controller: _passwordController,
                         obscureText: _obscurePassword,
                         decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.lock,color: Colors.black,),
+                          prefixIcon: const Icon(Icons.lock, color: Colors.black),
                           hintText: 'Password',
                           border: const OutlineInputBorder(),
                           suffixIcon: IconButton(
@@ -137,7 +125,12 @@ class _LoginPageState extends State<LoginPage> {
                             },
                           ),
                         ),
-                        validator: _validatePassword,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your password';
+                          }
+                          return null;
+                        },
                       ),
                       const SizedBox(height: 10),
                       Row(
@@ -153,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                                   });
                                 },
                               ),
-                              const Text("Remember Me",style: TextStyle(color: Colors.black),),
+                              const Text("Remember Me", style: TextStyle(color: Colors.black)),
                             ],
                           ),
                           TextButton(
@@ -163,7 +156,7 @@ class _LoginPageState extends State<LoginPage> {
                                 MaterialPageRoute(builder: (context) => ResetPasswordPage()),
                               );
                             },
-                            child: const Text("Forgot Password?",style: TextStyle(color: Colors.purple),),
+                            child: const Text("Forgot Password?", style: TextStyle(color: Colors.purple)),
                           ),
                         ],
                       ),
@@ -172,12 +165,16 @@ class _LoginPageState extends State<LoginPage> {
                         width: double.infinity,
                         height: 50,
                         child: ElevatedButton(
-                          onPressed: _rememberMe ? _handleLogin : null, // Enabled only if checkbox is ticked
+                          onPressed: _rememberMe && !_isLoading ? _handleLogin : null,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green,
-                            disabledBackgroundColor: Colors.grey, // Button is grey when disabled
+                            disabledBackgroundColor: Colors.grey,
                           ),
-                          child: const Text(
+                          child: _isLoading
+                              ? const CircularProgressIndicator(
+                            color: Colors.white,
+                          )
+                              : const Text(
                             "Login",
                             style: TextStyle(color: Colors.white),
                           ),
@@ -187,13 +184,13 @@ class _LoginPageState extends State<LoginPage> {
                       Center(
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (context) => RegisterPage()),
+                              MaterialPageRoute(builder: (context) => const RegisterPage()),
                             );
                           },
                           child: const Text.rich(
-                            TextSpan(style: TextStyle(color: Colors.black),
+                            TextSpan(
                               text: "Don't have an account? ",
                               children: [
                                 TextSpan(
