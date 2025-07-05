@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+void main(){
+  runApp(MaterialApp(debugShowCheckedModeBanner: false,home: AboutPage(),));
+}
+
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
 
@@ -7,8 +11,8 @@ class AboutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('About Us'),
-        backgroundColor: Colors.green,
+        title: const Text('About Us',style: TextStyle(color: Colors.black),),
+        backgroundColor: Colors.yellowAccent,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -19,7 +23,7 @@ class AboutPage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
-                color: Colors.green,
+                color: Colors.yellowAccent,
               ),
             ),
             const SizedBox(height: 20),
@@ -43,11 +47,11 @@ class AboutPage extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             ListTile(
-              leading: const Icon(Icons.email, color: Colors.green),
+              leading: const Icon(Icons.email, color: Colors.yellowAccent),
               title: const Text('support@pitstop.com'),
             ),
             ListTile(
-              leading: const Icon(Icons.phone, color: Colors.green),
+              leading: const Icon(Icons.phone, color: Colors.yellowAccent),
               title: const Text('+91 9876543210'),
             ),
           ],

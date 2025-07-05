@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:main_projects/PitStop/Widget/LoginPage.dart';
-import 'package:main_projects/PitStop/firebase/auth_service.dart';
 
 void main() {
   runApp(MaterialApp(debugShowCheckedModeBanner: false, home: RegisterPage()));
